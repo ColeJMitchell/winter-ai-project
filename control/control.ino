@@ -7,18 +7,23 @@
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 
 void setup(){
-  pwm.begin();              
+  pwm.begin();   
+  Serial.begin(9600);           
   pwm.setPWMFreq(50);       
 }
 
 void loop(){
-  
- 
-  pwm.setPWM(1, 0, SERVO_MIN); 
-  delay(1000);
-  pwm.setPWM(1, 0, SERVO_MAX);
-  delay(1000);
+  if (Serial.available()) {
+    char received = Serial.read();
+    if (received == '1') {
+      Serial.println("Arduino received '1'");
+    }
+  }
 
 }
 
-void calculate_angle()
+void calculate_angle(int channel, int angle){
+  int pulselength = map(angle, 0, 180, SERVO_MIN, SERVO_MAX);
+  pwm.setPWM(channel, 0, pulselength);
+
+}
