@@ -8,11 +8,10 @@ def main():
     print("Connected to server")
     
     while True:
-        message = b'1'
+        servo_channel = input("Enter the servo channel: ")
+        angle = input("Enter the angle: ")
+        message = f'{servo_channel}-{angle}'.encode('utf-8')
         client.send(message)
-        response = client.recv(1024)
-        print(f"Arduino Says: {response}")    
-        time.sleep(1)
 
     client.close()
 
