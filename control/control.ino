@@ -12,24 +12,33 @@ void setup(){
   pwm.setPWMFreq(50);       
 }
 
-void loop(){
-  
-  if (Serial.available()) {
-    String connection = Serial.readStringUntil('\n');  
-    
-    int hyphenIndex = connection.indexOf('-');
-    if (hyphenIndex != -1) {  
-      int channel = connection.substring(0, hyphenIndex).toInt();
-      int angle = connection.substring(hyphenIndex + 1).toInt();
-      calculate_angle(channel, angle);
-      }
-  }
-    
+void loop() {
+    if (Serial.available()) {
+        String connection = Serial.readStringUntil('\n');  
+        int currIndex = 0;
+        while (currIndex < connection.length()) {
 
+            int hyphenIndex = connection.indexOf('-', currIndex);
+            if (hyphenIndex == -1) {
+                break; 
+            }
+
+            int pipeIndex = connection.indexOf('|', currIndex);
+            if (pipeIndex == -1) {
+                pipeIndex = connection.length(); 
+            }
+
+            int channel = connection.substring(currIndex, hyphenIndex).toInt();
+            int angle = connection.substring(hyphenIndex + 1, pipeIndex).toInt();
+            calculate_angle(channel, angle);
+
+            currIndex = pipeIndex + 1;
+        }
+    }
 }
+
 
 void calculate_angle(int channel, int angle){
   int pulselength = map(angle, 0, 180, SERVO_MIN, SERVO_MAX);
   pwm.setPWM(channel, 0, pulselength);
-
 }

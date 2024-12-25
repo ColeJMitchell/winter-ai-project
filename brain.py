@@ -8,10 +8,9 @@ def main():
     print("Connected to server")
     
     while True:
-        servo_channel = input("Enter the servo channel: ")
-        angle = input("Enter the angle: ")
-        message = f'{servo_channel}-{angle}'.encode('utf-8')
+        message = b'1-0|5-0|9-20\n'
         client.send(message)
+        time.sleep(5)
 
     client.close()
 
