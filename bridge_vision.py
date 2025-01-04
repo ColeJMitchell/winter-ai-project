@@ -16,7 +16,14 @@ def main():
             break
         data = pickle.dumps(frame)
         message = struct.pack("Q", len(data)) + data
-        conn.sendall(message)
+        try:
+            conn.sendall(message)
+        except:
+            camera.release()
+            cv2.destroyAllWindows()
+            server.close() 
+            conn.close() 
+            main()
     camera.release()
     cv2.destroyAllWindows()
     server.close() 
