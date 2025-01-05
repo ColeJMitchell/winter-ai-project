@@ -32,17 +32,19 @@ def receive_frame(client_socket, data_size):
 # Connects to the server and processes the video feed
 def main():
     try:
-        client_vision = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        windows_ip = 'windows_ip' 
-        client_vision.connect((windows_ip, 5001))
+        client_vision = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+        client_vision.connect(('winddows ip', 5001))
         data_size = struct.calcsize("Q")
-        data = b''
         while True:
             try:
                 result = receive_frame(client_vision, data_size)
-                frame = result     
-                canny = cv2.Canny(frame, 50, 150)
-                hough = cv2.HoughLinesP(canny, 1, np.pi/180, 100, minLineLength=100, maxLineGap=10)
+                frame = result
+                result = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)  
+                result = cv2.GaussianBlur(result, (5, 5), 0)  
+                ones = np.ones((9, 9), np.uint8)
+                canny = cv2.Canny(result, 50, 100)
+                dilated = cv2.dilate(canny, ones, iterations=1)
+                hough = cv2.HoughLinesP(dilated, 1, np.pi/180, 100, minLineLength=600, maxLineGap=30)
                 if hough is not None:
                     for line in hough:
                         x1, y1, x2, y2 = line[0]
