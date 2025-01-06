@@ -10,13 +10,19 @@ def main():
     server.listen(1)
     conn, _ = server.accept()
     camera = cv2.VideoCapture(0, cv2.CAP_DSHOW) 
+    camera.set(cv2.CAP_PROP_AUTOFOCUS, 0)  
+    camera.set(cv2.CAP_PROP_FOCUS, 0)  
+    camera.set(cv2.CAP_PROP_FRAME_WIDTH, 1920) 
+    camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
+    camera.set(cv2.CAP_PROP_FPS, 60) 
     while True:
         _, frame = camera.read()
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
         data = pickle.dumps(frame)
         message = struct.pack("Q", len(data)) + data
-        try:
+        cv2.imshow("frame", frame)
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+        try: 
             conn.sendall(message)
         except:
             camera.release()
