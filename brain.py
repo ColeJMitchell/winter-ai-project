@@ -73,7 +73,7 @@ def initBoard():
         ((1193, 1316), (24, 138)), ((1188, 1311), (138, 252)), ((1188, 1311), (252, 366)), ((1188, 1311), (364, 478)),
         ((1183, 1306), (473, 587)), ((1183, 1306), (582, 696)), ((1183, 1306), (688, 802)), ((1183, 1306), (794, 908)),
         ((1302, 1425), (26, 140)), ((1302, 1425), (140, 254)), ((1300, 1423), (254, 368)), ((1297, 1420), (364, 478)),
-        ((1294, 1417), (473, 587)), ((1291, 1414), (581, 695)), ((1288, 1411), (688, 802)), ((1285, 1408), (685, 799))
+        ((1294, 1417), (473, 587)), ((1291, 1414), (581, 695)), ((1288, 1411), (688, 802)), ((1285, 1408), (792, 906))
     ]
     for coords in coordinates:
         squares.append(square(coords[0], coords[1], counter))
@@ -83,6 +83,8 @@ def initBoard():
 # Connects to the server and processes the video feed
 def main():
     board = initBoard()
+    for square in board:
+        square.normalize()
     try:
         client_vision = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
         client_vision.connect(('windows ip', 5001))
@@ -120,9 +122,13 @@ def main():
                         cv2.circle(frame, (int(px), int(py)) ,5 ,(0, 0, 255), 5)
                 frame = frame[30:930, 638:1567]
                 '''
+                '''
                 for square in board:
                     square.saveImage(squares)
                 return
+                '''
+                for square in board:
+                    square.saveImage(squares)
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
                 
