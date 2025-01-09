@@ -4,6 +4,7 @@ import pickle
 import cv2
 import numpy as np
 from square import square
+import os 
 
 # Processes frame data sent from the server's webcam
 def receive_frame(client_socket, data_size):
@@ -58,7 +59,7 @@ def initBoard():
     squares = []
     counter = 1
     coordinates = [
-        ((517, 640), (26, 140)), ((521, 644), (139, 253)), ((524, 647), (252, 366)), ((525, 648), (364, 478)),
+        ((517, 640), (22, 136)), ((517, 640), (139, 253)), ((524, 647), (252, 366)), ((525, 648), (364, 478)),
         ((529, 652), (472, 586)), ((529, 652), (580, 694)), ((530, 653), (690, 804)), ((533, 656), (799, 913)),
         ((628, 751), (24, 138)), ((630, 753), (137, 251)), ((635, 758), (251, 365)), ((635, 758), (366, 480)),
         ((640, 763), (474, 588)), ((640, 763), (584, 698)), ((643, 766), (692, 806)), ((643, 766), (799, 913)),
@@ -87,7 +88,10 @@ def main():
         square.normalize()
     try:
         client_vision = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
-        client_vision.connect(('windows ip', 5001))
+        try:
+            client_vision.connect((os.getenv("WINDOWS_IP"), 5001))
+        except Exception as e:
+            print(e)
         data_size = struct.calcsize("Q")
         while True:
             try:
@@ -127,8 +131,24 @@ def main():
                     square.saveImage(squares)
                 return
                 '''
-                for square in board:
-                    square.saveImage(squares)
+                
+                board[0].saveImage(squares, "black", "rook", "1,1")
+                board[1].saveImage(squares, "black", "knight", "2,1")
+                board[2].saveImage(squares, "black", "bishop", "3,1")
+                board[3].saveImage(squares, "black", "king", "4,1")
+                board[4].saveImage(squares, "black", "queen", "5,1")
+                board[5].saveImage(squares, "black", "bishop", "6,1")
+                board[6].saveImage(squares, "black", "knight", "7,1")
+                board[7].saveImage(squares, "black", "rook", "8,1")
+                board[8].saveImage(squares, "black", "pawn", "1,2")
+                board[9].saveImage(squares, "black", "pawn", "2,2")
+                board[10].saveImage(squares, "black", "pawn", "3,2")
+                board[11].saveImage(squares, "black", "pawn", "4,2")
+                board[12].saveImage(squares, "black", "pawn", "5,2")
+                board[13].saveImage(squares, "black", "pawn", "6,2")
+                board[14].saveImage(squares, "black", "pawn", "7,2")
+                board[15].saveImage(squares, "black", "pawn", "8,2")
+              
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
                 
