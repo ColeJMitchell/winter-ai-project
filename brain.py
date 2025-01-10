@@ -151,7 +151,7 @@ def collectData(board, squares):
 
 def collectRowData(board, squares, start, end, color, piece, col):
     counter = 1
-    for i in range(start, end):
+    for i in range(start, end+1):
         board[i].saveImage(squares, color, piece, f"{counter},{col}")
         counter += 1
     
@@ -207,8 +207,8 @@ def main():
                     square.saveImage(squares)
                 return
                 '''
-                collectRowData(board, squares, 45, 54, "white", "pawn", 7)
-                collectData(board, squares)
+                collectRowData(board, squares, 0, 7, "white", "pawn", 1)
+                #collectData(board, squares)
                 cv2.imshow("Frame", squares[22:136, 517:640])
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
