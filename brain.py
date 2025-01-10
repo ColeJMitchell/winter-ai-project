@@ -207,7 +207,7 @@ def main():
                     square.saveImage(squares)
                 return
                 '''
-                collectRowData(board, squares, 56, 63 , "black", "pawn", 8)
+                collectRowData(board, squares, 56, 63 , "empty", "square", 8)
                 #collectData(board, squares)
                 cv2.imshow("Frame", squares[22:136, 517:640])
                 if cv2.waitKey(1) & 0xFF == ord('q'):
