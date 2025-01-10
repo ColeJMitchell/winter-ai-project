@@ -148,14 +148,19 @@ def collectData(board, squares):
     board[62].saveImage(squares, "white", "knight", "7,8")
     board[63].saveImage(squares, "white", "rook", "8,8")
 
-
+# Collects a row of training data for the machine learning chess piece classification
 def collectRowData(board, squares, start, end, color, piece, col):
     counter = 1
     for i in range(start, end+1):
         board[i].saveImage(squares, color, piece, f"{counter},{col}")
+        counter += 1    
+
+# Collect 2 data points for the machine learning chess piece classification
+def collect2PData(board, squares, start, end, color, piece, col, start2):
+    counter = 0
+    for i in range(start, end+1):
+        board[i].saveImage(squares, color, piece, f"{start2 + counter},{col}")
         counter += 1
-    
-    
 
 # Connects to the server and processes the video feed
 def main():
@@ -207,7 +212,7 @@ def main():
                     square.saveImage(squares)
                 return
                 '''
-                collectRowData(board, squares, 56, 63 , "empty", "square", 8)
+                collect2PData(board, squares, 63, 63 , "white", "queen", 8, 8)
                 #collectData(board, squares)
                 cv2.imshow("Frame", squares[22:136, 517:640])
                 if cv2.waitKey(1) & 0xFF == ord('q'):
