@@ -1,2 +1,4 @@
 venv/
 .idea/
+machine_learning/transfer_learning_model.pth
+machine_learning/chess_piece_classifier.pth
