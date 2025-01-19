@@ -165,6 +165,7 @@ def collect2PData(board, squares, start, end, color, piece, col, start2):
 # Connects to the server and processes the video feed
 def main():
     board = initBoard()
+    counter = 1
     for square in board:
         square.normalize()
     try:
@@ -212,9 +213,10 @@ def main():
                     square.saveImage(squares)
                 return
                 '''
-                collect2PData(board, squares, 62, 63, "black", "bishop", 8, 7)
+                #collect2PData(board, squares, 62, 63, "black", "bishop", 8, 7)
                 #collectData(board, squares)
-                cv2.imshow("Frame", squares[22:136, 517:640])
+                cv2.imwrite(f"training_data/test.jpg", squares[22:136, 500:623])
+                cv2.imshow("Frame", squares[22:136,500:623])
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
                 

@@ -26,6 +26,11 @@ class square:
         save_path = f"/home/cole/github/winter-ai-project/training_data/{piece_color}_{piece_type}/{square}.jpg"
         cv2.imwrite(save_path, image[self.y[0]:self.y[1], self.x[0]:self.x[1]])
     
+    #Test Code
+    def saveImage2(self, image, counter):
+        save_path = f"/home/cole/github/winter-ai-project/datasets/{counter}.jpg"
+        cv2.imwrite(save_path, image[self.y[0]:self.y[1], self.x[0]:self.x[1]])
+
     #Normalizes the image to 123 x 123
     def normalize(self):
         self.y[0] = self.y[0] - 9
