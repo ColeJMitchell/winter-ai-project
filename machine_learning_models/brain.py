@@ -5,6 +5,7 @@ import cv2
 import numpy as np
 from square import square
 import os 
+from evaluate_square import make_prediction
 
 # Processes frame data sent from the server's webcam
 def receive_frame(client_socket, data_size):
@@ -216,10 +217,31 @@ def main():
                 #collect2PData(board, squares, 62, 63, "black", "bishop", 8, 7)
                 #collectData(board, squares)
                 cv2.imwrite(f"training_data/test.jpg", squares[22:136, 500:623])
-                cv2.imshow("Frame", squares[22:136,500:623])
+                cv2.imshow("Frame", squares)
+                '''
+                for square in board:
+                    square.save_image2(squares, counter)
+                    counter += 1
+                '''
+                '''
+                try:
+                    predicted_board = [[] for i in range (8)]
+                    for i,square in enumerate(board):
+                        x1, x2, y1, y2 = square.get_bounds()
+                        predicted_piece = make_prediction(squares[y1:y2, x1:x2])  
+                        predicted_board[i//8].append(predicted_piece)
+                    for row in predicted_board:
+                        print(row)
+                except Exception as e:
+                    print(e)
+                '''
+
+
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
+        
                 
+        
             except Exception as e:
                 break
 
